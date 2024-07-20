@@ -3,6 +3,7 @@ const S3Services=require('../services/S3services');
 
 const FileDownloaded = require('../models/filesDownloaded');
 const User = require('../models/user');
+const Expense = require('../models/expense');
 
 exports.downloadRecoard = async (req, res) => { 
   try {
@@ -43,10 +44,10 @@ exports.download = async (req, res) => {
 exports.getPremium = async (req, res) => {
   try {
     if (req.user.isPremiumUser) {
-      const aggExp = await User.find({})
+      const totalExpense = await User.find({})
         .select("username totalExpense")
         .sort({ totalExpense: -1 });
-      res.status(200).json(aggExp);
+      res.status(200).json(totalExpense);
     } else {
       res.status(401).json({ success: false, message: "Unauthorized: You are not a premium user" });
     }

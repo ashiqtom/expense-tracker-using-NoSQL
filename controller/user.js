@@ -12,16 +12,17 @@ exports.signupUser = async (req, res) => {
         if (!stringValidate(username) || !stringValidate(email) || !stringValidate(password)) {
             return res.status(400).json({ err: "Bad request, something is missing" });
         }
-        const existingUser = await User.findOne({ email });
+        const user = await User.findOne({ email });
 
-        if (existingUser) {
+        if (user) {
             return res.status(400).json({ err: 'Email already exists' });
         }
-        const saltRounds = 10;
+        const saltRounds = parseInt(process.env.saltRounds);
         const hashedPassword = await bcrypt.hash(password, saltRounds); // blowfish 
 
         const newUser = new User({ username, email, password: hashedPassword });
         await newUser.save();
+        
         res.status(201).json({ message: 'Successfully created new user' });
 
     } catch (err) {
@@ -36,18 +37,18 @@ exports.loginUser = async (req, res) => {
         if (!stringValidate(email) || !stringValidate(password)) {
             return res.status(400).json({ err: "Bad request, something is missing" });
         }
-        const existingUser = await User.findOne({ email });
+        const user = await User.findOne({ email });
         
-        if (!existingUser) {
+        if (!user) {
             return res.status(404).json({ err: 'Invalid email' });
         }
-        const passwordCompared = await bcrypt.compare(password, existingUser.password);
+        const passwordCompared = await bcrypt.compare(password, user.password);
 
         if (passwordCompared) {
             return res.status(200).json({ 
                 success: true, 
                 message: "User logged in successfully", 
-                token: generateAccessToken(existingUser.id, existingUser.username) 
+                token: generateAccessToken(user.id, user.username) 
             });
         } else {
             return res.status(400).json({ success: false, err: 'Password is incorrect' });

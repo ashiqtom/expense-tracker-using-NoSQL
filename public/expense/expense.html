@@ -4,51 +4,78 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Expense Tracker</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
-<body style="margin: 0">
-  <h3><a href="../login/login.html">login</a>  <a href="../signup/signup.html">signup</a></h3>
-  <form id="form">
-    <label for="amount">Choose expense amount:</label><br>
-    <input type="number" name="amount" id="amount"/><br><br>
+<body>
+  <header class="header">
+    <h1>ExpensePi</h1>
+    <nav>
+      <a href="../login/login.html">Login</a>
+      <a href="../signup/signup.html">Signup</a>
+    </nav>
+  </header>
+  <div class="container">
+    <div class="expense-section">
+      <form id="form">
+        <label for="amount">Choose expense amount:</label>
+        <input type="number" name="amount" id="amount" required/>
+        
+        <label for="description">Enter description:</label>
+        <input type="text" name="description" id="description" required/>
+        
+        <label for="category">Choose a category:</label>
+        <select name="category" id="category" required>
+          <option value="fuel">Fuel</option>
+          <option value="Rent">Rent</option>
+          <option value="Food">Food</option>
+          <option value="Travel">Travel</option>
+        </select>
+        
+        <button type="submit">Add Expense</button>
+      </form>
 
-    <label for="description">Enter description:</label><br>
-    <input type="text" name="description" id="description"/><br><br>
+      <ul id="expenseList"></ul>
+      <div id="expensePagination"></div>
 
-    <label for="category">Choose a category:</label><br>
-    <select name="category" id="category">
-      <option value="fuel">fuel</option>
-      <option value="Rent">Rent</option>
-      <option value="Food">Food</option>
-      <option value="Travel">Travel</option>
-    </select><br><br>
+      <label for="paginationNums">Expenses per page:</label>
+      <select name="paginationNums" id="paginationNums">
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+      </select>
+    </div>
 
-    <button type="submit">Add Expense</button><br><br>
-  </form>
-  <button id="rzp-button1">Buy Premium</button>
-  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-  <h3 id="successMessage"></h3>
+    <div class="premium-section">
+      <button id="rzp-button1">Buy Premium</button>
+      <h3 id="successMessage"></h3>
 
-  <ul id="expenseList"></ul>  
-  <div id="expensePagination"></div>
-  <label for="paginationNums">Expenses per page:</label>
-  <select name="paginationNums" id="paginationNums">
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-  </select>
-  <br>
-  <div id="lbHeading" style="display: none;">
-    <h3>Leaderboard</h3>
-    <ul id="lbList"></ul>
-  </div>
-  <br>
-    <button onclick="download()" id="downloadexpense">Download all expense</button>
-   <div id="DRecoardsDiv" style="display: none;">
-    <h3>Previous download</h3>
-    <ul id="DRecoards"></ul>
-    <div id="DRecoardsPagination"></div>
+      <div id="lbHeading" style="display: none;">
+        <h3>Leaderboard</h3>
+        <table id="lbTable">
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Total Expenses</th>
+            </tr>
+          </thead>
+          <tbody id="lbList">
+          </tbody>
+        </table>
+      </div>
+
+      <br><br>
+
+      <button onclick="download()" id="downloadexpense">Download all your expenses</button>
+
+      <div id="DRecoardsDiv" style="display: none;">
+        <h3>Previous downloads</h3>
+        <ul id="DRecoards"></ul>
+        <div id="DRecoardsPagination"></div>
+      </div>
+    </div>
   </div>
 </body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="expense.js"></script>
 </html>

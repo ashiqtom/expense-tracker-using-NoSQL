@@ -21,7 +21,7 @@ exports.uploadToS3=async(data,filename)=>{
         //  This allows you to use await to pause execution until the promise is resolved or rejected:
         //  This makes the code look synchronous and more readable, while still being asynchronous under the hood.
 
-        console.log('Upload success', response);
+        // console.log('Upload success', response);
         return response; 
     } catch (err) {
         console.log('Upload error', err);

@@ -1,0 +1,147 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.header nav {
+  display: flex;
+  gap: 10px;
+}
+
+.header nav a {
+  color: white;
+  text-decoration: none;
+  padding: 5px 10px;
+  border: 1px solid white;
+  border-radius: 5px;
+}
+
+.header nav a:hover {
+  background-color: #0056b3;
+}
+
+.container {
+  display: flex;
+  width: 100%;
+}
+
+.expense-section, .premium-section {
+  flex: 1;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.expense-section {
+  background-color: #f0f0f0;
+  border-right: 1px solid #ccc;
+}
+
+.premium-section {
+  background-color: #e0e0e0;
+}
+
+h3 {
+  margin-top: 0;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-bottom: 5px;
+}
+
+input, select, button {
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+button {
+  cursor: pointer;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 10px;
+}
+
+#expenseList li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+#expensePagination, #DRecoardsPagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#expensePagination button, #DRecoardsPagination button {
+  margin: 0 5px;
+  padding: 5px 10px;
+}
+
+#successMessage {
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #007bff;
+  color: white;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}

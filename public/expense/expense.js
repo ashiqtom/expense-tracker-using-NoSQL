@@ -50,7 +50,16 @@ const showpagination=async(data)=>{
     document.getElementById('expenseList').innerHTML='';
     const pagination=document.getElementById('expensePagination')
     pagination.innerHTML='';
+
+    // first
+    if(data.currentPage !== 1){
+      const firstButton = document.createElement('button');
+      firstButton.textContent = 'First';
+      firstButton.addEventListener('click', () => getExpenses(1));
+      pagination.appendChild(firstButton);
+    }
     
+    // previous page
     if (data.hasPreviousPage) {
       const prevButton = document.createElement('button');
       prevButton.textContent = 'Previous';
@@ -58,17 +67,28 @@ const showpagination=async(data)=>{
       pagination.appendChild(prevButton);
     }
 
+    // current page
     const currentPageButton = document.createElement('button');
     currentPageButton.textContent = `Page ${data.currentPage}`;
     currentPageButton.disabled = true; 
     pagination.appendChild(currentPageButton);
 
+    // next page
     if (data.nextPage <= data.lastPage) {
       const nextButton = document.createElement('button');
       nextButton.textContent = 'Next';
       nextButton.addEventListener('click', () => getExpenses(data.nextPage));
       pagination.appendChild(nextButton);
     }
+
+    // last page
+    if(data.currentPage !== data.lastPage){
+      const lastPageButton = document.createElement('button');
+      lastPageButton.textContent = `Last Page (${data.lastPage})`;
+      lastPageButton.addEventListener('click', () => getExpenses(data.lastPage));
+      pagination.appendChild(lastPageButton);
+    }
+
     }catch (err){
       console.log(err)
     }
@@ -140,7 +160,6 @@ document.getElementById('rzp-button1').addEventListener('click' ,async function 
           });
 
           displayPremiumStatus();
-          console.log(postResponse)
         } catch (error) {
           console.error('Error updating transaction status:', error);
         }
@@ -153,7 +172,6 @@ document.getElementById('rzp-button1').addEventListener('click' ,async function 
 
     rzp1.on('payment.failed', async function (response) {
       try {
-        console.log(response);
         await axios.post(`/purchase/updateFailedStatus`, {
           order_id: options.order_id,
         }, { headers: { "Authorization": token } });
@@ -164,7 +182,7 @@ document.getElementById('rzp-button1').addEventListener('click' ,async function 
       }
     });
   } catch (error) {
-    console.error('Error initiating premium membership purchase:', error);
+    console.log('Error initiating premium membership purchase:', error);
     alert('Failed to initiate premium membership purchase. Please try again.');
   }
 });
@@ -179,7 +197,7 @@ const displayPremiumStatus = async()=> {
 
     if(isPremium===true){
       document.getElementById('rzp-button1').style.display = 'none';
-      premiumTag.innerHTML='You are a Premium User';
+      premiumTag.innerHTML='See others expenses';
 
       displayRecoardsOnScreen();
       
@@ -199,19 +217,27 @@ const displayPremiumStatus = async()=> {
   }
 }
 
-const leaderBoardFuction=async()=>{
-  try{
+const leaderBoardFuction = async () => {
+  try {
     const token = localStorage.getItem('token');
     const lbList = document.getElementById('lbList');
     const response = await axios.get(`/premium/leaderBoard`, { headers: { "Authorization": token } });
     
     lbList.innerHTML = '';
     response.data.forEach(user => {
-      const listItem = document.createElement('li');
-      listItem.textContent = `Name : ${user.username} - Total expenses : ${user.totalExpense}`;
-      lbList.appendChild(listItem);
+      const row = document.createElement('tr');
+      
+      const usernameCell = document.createElement('td');
+      usernameCell.textContent = user.username;
+      row.appendChild(usernameCell);
+      
+      const totalExpensesCell = document.createElement('td');
+      totalExpensesCell.textContent = user.totalExpense;
+      row.appendChild(totalExpensesCell);
+      
+      lbList.appendChild(row);
     });
-    lbHeading.style.display = 'block';
+    document.getElementById('lbHeading').style.display = 'block';
   } catch(err) {
     console.log(err);
     alert(err.response.data.message)

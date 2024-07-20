@@ -1,13 +1,12 @@
 const Expense = require('../models/expense');
 const mongoose = require('mongoose');
 
-
 exports.getExpense=async (req, res) => {
     try {
       const page = +req.query.page || 1;
       const itemsPerPage = +req.query.itemsPerPage || 2;
 
-      const totalItems = await Expense.countDocuments({ userId: req.user._id });
+      const totalNoExense = await Expense.countDocuments({ userId: req.user._id });
 
       const expenses = await Expense.find({ userId: req.user._id })
           .skip((page - 1) * itemsPerPage)
@@ -18,9 +17,10 @@ exports.getExpense=async (req, res) => {
         currentPage:page,
         nextPage:page+1,
         previousPage:page-1,
-        HasNextPage:itemsPerPage*page < totalItems,        
+        HasNextPage:itemsPerPage*page < totalNoExense,        
         hasPreviousPage:page>1,        
-        lastPage:Math.ceil(totalItems/itemsPerPage),
+        lastPage:Math.ceil(totalNoExense/itemsPerPage),  //Math.ceil() ensures that even if there’s a fraction of a page left 
+                                                      // it rounds up to the next whole number to ensure all items are displayed.
       });
     } catch (err) { 
       console.error('Error fetching expenses:', err);
@@ -43,7 +43,7 @@ exports.postExpense = async (req, res) => {
       await newExpense.save({ session });
 
       const totalAmount = req.user.totalExpense + parseInt(amount);
-      req.user.totalExpense = totalAmount;
+      req.user.totalExpense = totalAmount; 
       await req.user.save({ session });
 
       await session.commitTransaction();

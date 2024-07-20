@@ -1,5 +1,3 @@
-
-
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     try {
         event.preventDefault();
@@ -25,7 +23,6 @@ document.getElementById('sendResetEmailBtn').addEventListener('click', async () 
 
     try {
         const response = await axios.post(`/password/forgotpassword`, { email });
-        console.log(response);
         alert('Reset email sent successfully!');
         document.getElementById('forgotPasswordForm').style.display = 'none';
         document.getElementById('emailInput').value='';
