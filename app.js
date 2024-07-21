@@ -21,11 +21,17 @@ app.use('/purchase', purchaseRoutes);
 app.use('/premium',premiumRoutes);
 app.use('/password',forgotRoutes);
 
-app.use((req,res)=>{
-  res.sendFile(path.join(__dirname,`public/${req.url}`));
-})
-
-console.log('it is in vesrcel');
+app.use((req, res) => {
+  if (req.url === '/') {
+    res.sendFile(path.join(__dirname, 'public', 'signup', 'signup.html'));
+  } else if (req.url === '/styles.css') {
+    res.sendFile(path.join(__dirname, 'public', 'signup', 'styles.css'));
+  } else if (req.url === '/signup.js') {
+    res.sendFile(path.join(__dirname, 'public', 'signup', 'signup.js'));
+  } else {
+    res.sendFile(path.join(__dirname, 'public', req.url));
+  }
+});
 
 const startServer = async () => {
   try {
